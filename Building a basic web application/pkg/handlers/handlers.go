@@ -1,13 +1,12 @@
-package main
+package handlers //packages live in their own dir, so all the handlers live inside the same package handlers(which is also the directory name)
 
 import (
 	"errors"
 	"fmt"
-	"html/template"
 	"net/http"
-)
 
-const portnumber = ":8080"
+	"github.com/Aadarsh131/Building-Modern-Web-Applications-with-Go/pkg/render"
+)
 
 func Hello(w http.ResponseWriter, r *http.Request) {
 	n, err := fmt.Fprintf(w, "Hello")
@@ -45,29 +44,8 @@ func divideValues(x, y float32) (float32, error) {
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "home.page.html")
+	render.RenderTemplate(w, "home.page.tmpl")
 }
 func About(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "about.page.html")
-}
-
-func renderTemplate(w http.ResponseWriter, tmpl string) {
-	parsedTemplatePointer, _ := template.ParseFiles("./templates/"+tmpl)
-	err:=parsedTemplatePointer.Execute(w,nil)
-	if(err != nil){
-		fmt.Println("error parsing template: ", err)
-	}
-	return
-}
-func main() {
-	fmt.Println("Hello")
-
-	http.HandleFunc("/", Home)
-	http.HandleFunc("/About", About)
-	http.HandleFunc("/Hello", Hello)
-	http.HandleFunc("/Add", Add)
-	http.HandleFunc("/Divide", Divide)
-
-	fmt.Println("Starting the server on port", portnumber)
-	_ = http.ListenAndServe(portnumber, nil)
+	render.RenderTemplate(w, "about.page.tmpl")
 }
