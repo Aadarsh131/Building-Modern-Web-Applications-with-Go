@@ -15,7 +15,6 @@ func main() {
 
 	session := scs.New()
 	session.Lifetime = 24 * time.Hour
-	
 
 	// http.HandleFunc("/", handlers.Home)
 	// http.HandleFunc("/About", handlers.About)
@@ -24,14 +23,15 @@ func main() {
 	// http.HandleFunc("/Divide", handlers.Divide)
 
 	fmt.Println("Starting the server on port", portnumber)
-	// _ = http.ListenAndServe(portnumber, nil)
 
-	serv := &http.Server{ //http.Server without the & would also work, but we are using the ref
-		Addr:    portnumber,
-		Handler: routes(),
-	}
+	// serv := &http.Server{ //http.Server without the & would also work, but we are using the ref
+	// 	Addr:    portnumber,
+	// 	Handler: routes(),
+	// }
+	// err := serv.ListenAndServe()
 
-	err := serv.ListenAndServe()
+	//OR
+	err := http.ListenAndServe(portnumber, routes())
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -45,7 +45,9 @@ func divideValues(x, y float32) (float32, error) {
 
 func Home(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "home.page.tmpl")
+	fmt.Fprintln(w,"HOme")
 }
 func About(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "about.page.tmpl")
+	fmt.Fprintln(w,"about")  
 }
