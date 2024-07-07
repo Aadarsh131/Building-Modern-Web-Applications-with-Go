@@ -4,9 +4,25 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-
+	"github.com/Aadarsh131/Building-Modern-Web-Applications-with-Go/pkg/config"
 	"github.com/Aadarsh131/Building-Modern-Web-Applications-with-Go/pkg/render"
 )
+
+var Repo *Repository
+
+type Repository struct{
+	App *config.AppConfig
+}
+
+func NewRepo(a *config.AppConfig) *Repository{
+	return &Repository{
+		App: a,
+	}
+}
+
+func NewHandlers(r *Repository){
+	Repo = r
+}
 
 func Hello(w http.ResponseWriter, r *http.Request) {
 	n, err := fmt.Fprintf(w, "Hello")
@@ -43,11 +59,17 @@ func divideValues(x, y float32) (float32, error) {
 	return x / y, nil
 }
 
-func Home(w http.ResponseWriter, r *http.Request) {
+func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "home.page.tmpl")
-	fmt.Fprintln(w,"HOme")
+	repo.App.Session.Put(r.Context(), "remote_ip", r.RemoteAddr)
+	fmt.Fprintln(w, "Home")
+	fmt.Print(r.RemoteAddr)
+
 }
-func About(w http.ResponseWriter, r *http.Request) {
+
+func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, "about.page.tmpl")
 	fmt.Fprintln(w,"about")  
+	fmt.Print(repo.App.Session.GetString(r.Context(),"remote_ip"))
+	// fmt.Fprintln(w, repo.App.Session.GetString(r.Context(),"remote_ip"))
 }

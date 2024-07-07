@@ -22,8 +22,8 @@ func routes() http.Handler {
 	multiplexer.Use(middleware.Recoverer) //chi middleware
 	multiplexer.Use(WriteToConsole)       //my custor middleware
 	multiplexer.Use(CSRFprotection)
+	multiplexer.Get("/", handlers.Repo.Home)
+	multiplexer.Get("/About", handlers.Repo.About)
 
-	multiplexer.Get("/", handlers.Home)
-	multiplexer.Get("/About", handlers.About)
-	return multiplexer
+	return session.LoadAndSave(multiplexer)
 }
