@@ -4,7 +4,7 @@ import (
 	// "errors"
 	"fmt"
 	"net/http"
-	"github.com/Aadarsh131/Building-Modern-Web-Applications-with-Go/Building a basic web application/pkg/render"
+	"github.com/Aadarsh131/Building-Modern-Web-Applications-with-Go/pkg/config"
 )
 
 var Repo *Repository
